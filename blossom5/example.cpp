@@ -52,6 +52,7 @@ void LoadFile(int& node_num, int& edge_num, int*& edges, int*& weights, char* fi
 			e ++;
 		}
 	}
+  printf("number of edges read: %d\n", e);
 
 	if (e != edge_num) { printf("%s: wrong format #3\n", filename); exit(1); }
 	fclose(fp);
