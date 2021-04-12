@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# data
+data/com-lj.ungraph.txt
+data/com-orkut.ungraph.txt
