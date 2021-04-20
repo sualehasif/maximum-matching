@@ -37,3 +37,16 @@ data/com-orkut.ungraph.txt
 
 # binaries
 blossom5/blossom5
+metagraphs/masterarbeit
+
+#  metagraphs cache
+metagraphs/CMakeFiles
+metagraphs/assets
+metagraphs/data
+metagraphs/CMakeCache.txt
+
+
+# vscode
+.vscode
+
+

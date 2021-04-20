@@ -38,7 +38,7 @@
 using namespace maxmatching;
 
 bool printBaseGraphs = false;
-std::ofstream csv("measure.csv");
+std::ofstream csv("measure.csv", std::ios::app);
 
 template<typename VType, typename LType>
 void printMatching(Solver<VType, LType> solver) {
@@ -88,6 +88,7 @@ void performJob(Job& job, bool isSub) {
 	} else {
 		/* Iterate over all graphs provided by the source */
 		auto graph = job.getSource().getNext();
+
 		while (graph != nullptr) {
 			Statistics::reset();
 			if (printBaseGraphs) {
@@ -176,6 +177,19 @@ void performJob(Job& job, bool isSub) {
 template<typename SType, typename VType>
 void performJob(Job& job) {
 	performJob<SType, VType>(job, false);
+}
+
+GraphSource* makeRealWorldFileGraphSource(const std::string& input) {
+
+	if (Files::isDir(input)) {
+		return new RealWorldGraphSource(input);
+	} else if (Files::isFile(input)) {
+		return new RealWorldGraphSource(input);
+	} else if (Files::isFile(input + ".txt")) {
+		return new RealWorldGraphSource(input + ".txt");
+	} else {
+		return new VoidGraphSource();
+	}
 }
 
 GraphSource* makeFilesystemGraphSource(const std::string& input, const unsigned int& nNeighbors) {
@@ -303,6 +317,13 @@ int main(int argc, char** argv) {
 			i++;
 			param2Stepper = IntStepper();
 			src = Filesystem;
+		} else if (std::strcmp(argv[i], "-F") == 0) {
+			file = argv[i + 1];
+			i++;
+			std::cout << "Real World Graph will be read from: " << file << std::endl;
+			param1Stepper = IntStepper();
+			param2Stepper = IntStepper();
+			src = RealWorldFile;
 		}
 #define MAIN_READ_SRC_1_ARG(FLAG, CASE) \
 /**/	else if(std::strcmp(argv[i], FLAG) == 0) { \
@@ -404,6 +425,7 @@ int main(int argc, char** argv) {
 #define MAIN_SRC_CASE_2_INT_ARG(CASE) MAIN_SRC_CASE_2_ARG(CASE, *new unsigned int(param1), *new unsigned int(param2))
 #define MAIN_SRC_CASE_HC(SUFFIX) MAIN_SRC_CASE_2_INT_ARG(HoneyCombs##SUFFIX)
 							MAIN_SRC_CASE_2_ARG(Filesystem, "assets/" + file, *new unsigned int(param1));
+							MAIN_SRC_CASE_1_ARG(RealWorldFile, file);
 							MAIN_SRC_CASE_3_ARG(RandomBoost, *new unsigned int(param1), *new unsigned int(param2), job);
 							MAIN_SRC_CASE_3_ARG(RandomDimacs, *new unsigned int(param1), *new unsigned int(param2), job);
 #ifdef HAS_FADE
@@ -431,6 +453,7 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
+
 	switch (job.solver) {
 #define MAIN_MAKE_SOLVER_CASE(TYPE, SOLVER_T, VERTEX_T, JOB) \
 /**/	case TYPE: \

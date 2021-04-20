@@ -91,4 +91,19 @@ namespace maxmatching {
 			return nullptr;
 		}
 	};
+	class RealWorldGraphSource : public GraphSource {
+	private:
+		std::string fileName;
+	public:
+		RealWorldGraphSource(std::string fileName);
+		~RealWorldGraphSource();
+		SimpleGraph<unsigned int>* getNext();
+		std::string printSource();
+		inline bool isCompound() {
+			return false;
+		}
+		inline GraphSource* nextSubSource() {
+			return nullptr;
+		}
+	};
 }

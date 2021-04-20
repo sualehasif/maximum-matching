@@ -21,6 +21,7 @@ namespace maxmatching {
 
 	/* Enum to desribe which graph source to use */
 	enum SourceType {
+		RealWorldFile,
 		Filesystem,
 		RandomBoost,
 		RandomDimacs,

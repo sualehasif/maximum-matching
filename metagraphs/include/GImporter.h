@@ -22,4 +22,12 @@ namespace maxmatching {
 
 		SimpleGraph<unsigned int>* importFile(const std::string& file);
 	};
+	class VEImporter {
+	public:
+		VEImporter();
+		~VEImporter();
+
+		SimpleGraph<unsigned int>* importFile(const std::string& file);
+	};
+
 }

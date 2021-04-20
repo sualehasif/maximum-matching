@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEBUG_H_
+#define DEBUG_H_
 #include <iostream>
 
 /* Debug flag. Comment in or out to produce debug messages on std::cout.
@@ -20,3 +21,6 @@ bool DEBUG_ENABLED = false;
 #define TOGGLE_DEBUG()
 #define DEBUG(print)
 #endif
+
+
+#endif // DEBUG_H_ _

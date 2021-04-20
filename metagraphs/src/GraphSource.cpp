@@ -120,4 +120,33 @@ namespace maxmatching {
 	std::string GeneratorGraphSource::printSource() {
 		return this->string;
 	}
+
+	RealWorldGraphSource::RealWorldGraphSource(std::string fileName)
+		: GraphSource(1)
+		, fileName(fileName) {}
+	RealWorldGraphSource::~RealWorldGraphSource() {}
+	/* Creates a graph using the provided generator. Buffers the result in a g file.
+	 * If a g file with the name already exists, uses this one instead. */
+	SimpleGraph<unsigned int>* RealWorldGraphSource::getNext() {
+		if (this->size > 0) {
+			SimpleGraph<unsigned int>* ret;
+			if (!this->fileName.empty() && Files::isFile(this->fileName)) {
+				VEImporter importer;
+				ret = importer.importFile(this->fileName);
+			} else {
+				std::cout << "Couldnt find file. This is a problem!" << std::endl;
+			}
+			this->size--;
+			return ret;
+		}
+		return nullptr;
+	}
+
+	std::string RealWorldGraphSource::printSource() {
+		std::stringstream ret;
+		ret << "\"Folder source (Graph Source File="
+			<< this->fileName
+			<< ")\"";
+		return ret.str();
+	}
 }
