@@ -1,0 +1,86 @@
+// // #include "gbbs/benchmarks/MaximalMatching/RandomGreedy/MaximalMatching.h"
+// #include "metagraphs/include/norm/MVertex.h"
+// #include "metagraphs/include/norm/MetaGraphsSolver.h"
+
+// template <class Graph, class Label>
+// auto ParallelMaximalMatching(Graph& G) {
+//     using W = typename Graph::weight_type;
+//     using edge = std::tuple<uintE, uintE, W>;
+
+//     auto unmatched = MaximalMatching(G);
+
+//     std::vector<MCherryTree> vct;
+//     cilk_for (auto umvtx: unmatched) {
+//         vct.push_back(new MCherryTree(umvtx));
+//     }
+
+//     std::map<Long, MCherryTree<Label>> cherrytrees;
+//     std::dense_hash_map<edge, Bool, eqbool> eht;
+
+//     while(vct.size() > 1){
+//         MetaGraphsSolver<Label> metaSolver;
+//         long* partner = new long[G.n];
+//         long* even = new long[G.n]
+        
+//         Bool canGrow = true;
+        
+//         while (canGrow) {
+//             cilk_for (auto ct: vct){
+//                 std::vector<MVertex<Label>> growable = ct.growable();
+//                 std::vector<MVertex<Label>> newgrowable);
+
+//                 for (auto gv: growable) {
+//                     for (auto ngv : gv.out_neighbors){
+//                         if (partner[gv.id] == ngv.id) continue;
+
+//                         auto ngv_cherrytree = cherrytree[ngv.id];
+
+//                         auto ngv_partner = partner[ngv.id];
+//                         edge e = get_edge(ngv, ngv_partner);
+
+//                         if (ngv_cherrytree == NULL){ 
+//                             if (eht[e]){
+//                                 ct.add(e);
+//                                 ct.add(get_edge(gv, ngv));
+
+//                                 eht[e] = False;
+//                             }
+//                         }
+//                         else if (ngv_cherrytree != ct){
+//                             mg.addedge(ct, ngv_cherrytree);
+//                         }
+//                         else if (ngv == ct) {
+//                             if (even[ngv.id]){
+//                                 ct.makeBlossom(ngv);
+//                             }
+//                         }
+
+//                     }
+//                 }
+//             }
+
+//             update(canGrow);
+//         }
+
+//         if (mg.size() == 0){
+//             break;
+//         } else {
+//             mg.calculateMaxMatching();
+//         }
+
+//         cilk_for (auto e: mg.getMatching()){
+//             auto v = e.left; auto w = e.right;
+//             auto ctv = v.cherrytree;
+//             auto ctw = w.cherrytree;
+
+//             ctv.rotate(v);
+//             ctw.rotate(w);
+
+//             partner[v] = w;
+//             partner[w] = v;
+
+//             vct.remove(ctv);
+//             vct.remove(ctw);
+//         }
+//     }
+// }
