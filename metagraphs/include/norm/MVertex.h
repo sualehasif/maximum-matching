@@ -9,7 +9,7 @@ namespace norm {
 
 #include <vector>
 #include <functional>
-#include "BaseVertex.h"
+#include "../BaseVertex.h"
 #include "Debug.h"
 #include "Statistics.h"
 #include "List.h"
