@@ -67,33 +67,33 @@ CILKFLAGS = -DPARLAY_CILK -fopencilk
 HGFLAGS = -pthread
 SERIALFLAGS = -DPARLAY_SEQUENTIAL
 
-CILK:= 1
+# CILK:= 1
 
+# CC = /home/sualehasif/code/opencilk/opencilk-project/build/bin/clang++
+# PFLAGS = $(CILKFLAGS)
+# LFLAGS = -lcilkrts
+
+ifdef CLANG
+CC = clang++
+PFLAGS = $(CILKFLAGS)
+else ifdef CILK
 CC = /home/sualehasif/code/opencilk/opencilk-project/build/bin/clang++
 PFLAGS = $(CILKFLAGS)
-LFLAGS = -lcilkrts
-#
-#ifdef CLANG
-#CC = clang++
-#PFLAGS = $(CILKFLAGS)
-#else ifdef CILK
-#CC = /home/sualehasif/code/opencilk/opencilk-project/build/bin/clang++
-#PFLAGS = $(CILKFLAGS)
-#LFLAGS = -lcilkrts
-#else ifdef OPENMP
-#CC = g++
-#PFLAGS = $(OMPFLAGS)
-#LFLAGS = -fopenmp
-#else ifdef HOMEGROWN
-#CC = g++
-#PFLAGS = $(HGFLAGS)
-#else ifdef SERIAL
-#CC = g++
-#PFLAGS = $(SERIALFLAGS)
-#else # default is homegrown
-#CC = g++
-#PFLAGS = $(HGFLAGS)
-#endif
+LFLAGS = -fopencilk
+else ifdef OPENMP
+CC = g++
+PFLAGS = $(OMPFLAGS)
+LFLAGS = -fopenmp
+else ifdef HOMEGROWN
+CC = g++
+PFLAGS = $(HGFLAGS)
+else ifdef SERIAL
+CC = g++
+PFLAGS = $(SERIALFLAGS)
+else # default is homegrown
+CC = g++
+PFLAGS = $(HGFLAGS)
+endif
 
 ifeq ($(OS), linux)
   LINKER_START_GROUP := -Wl,--start-group

@@ -59,15 +59,16 @@ else ifeq ($(OS), mac)
 endif
 
 OMPFLAGS = -DPARLAY_OPENMP -fopenmp
-CILKFLAGS = -DPARLAY_CILK -fcilkplus
+CILKFLAGS = -DPARLAY_CILK -fopencilk
 HGFLAGS = -pthread
 SERIALFLAGS = -DPARLAY_SEQUENTIAL
 
+
 ifdef CLANG
 CC = clang++
-PFLAGS = $(CILKFLAGS)
+PFLAGS = $(SERIALFLAGS)
 else ifdef CILK
-CC = g++
+CC = /home/sualehasif/code/opencilk/opencilk-project/build/bin/clang++
 PFLAGS = $(CILKFLAGS)
 LFLAGS = -lcilkrts
 else ifdef OPENMP
