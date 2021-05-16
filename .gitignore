@@ -50,3 +50,6 @@ metagraphs/CMakeCache.txt
 .vscode
 .idea
 
+parallel/cmake-build-debug
+parallel/cmake-*
+parallel/CMakeCache.txt
