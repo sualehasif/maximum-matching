@@ -98,10 +98,10 @@ namespace maxmatching {
 		static std::string createCsvHeader();
 		static std::string createCsvData();
 	};
-
-	void Statistics::incrementRounds() {
-        this.Rounds = this.Rounds + 1;
-	}
+//
+//	void Statistics::incrementRounds() {
+//        this.Rounds = this.Rounds + 1;
+//	}
 }
 
 #undef M_DECLARE

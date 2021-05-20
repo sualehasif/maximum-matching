@@ -82,6 +82,7 @@ namespace maxmatching {
 	M_INIT(unsigned long, Time);
 	M_INIT(double, I);
 	M_INIT(double, RI);
+	M_INIT(double, Rounds);
 
 	Statistics::Statistics() {}
 	Statistics::~Statistics() {}
@@ -96,6 +97,7 @@ namespace maxmatching {
 		M_PROCESS_FIELD(Time);
 		M_PROCESS_FIELD(I);
 		M_PROCESS_FIELD(RI);
+		M_PROCESS_FIELD(Rounds);
 	}
 
 	void Statistics::reset() {
@@ -113,6 +115,7 @@ namespace maxmatching {
 
 		M_RESET(I);
 		M_RESET(RI);
+		M_RESET(Rounds);
 	}
 
 	void Statistics::resetCurrent() {
@@ -124,6 +127,7 @@ namespace maxmatching {
 		M_RESET_CUR(Time);
 		M_RESET_CUR(I);
 		M_RESET_CUR(RI);
+		M_RESET_CUR(Rounds);
 	}
 
 	void Statistics::startMeasure() {
@@ -187,6 +191,7 @@ namespace maxmatching {
 	M_INCREMENTER_CD(Edge);
 	M_INCREMENTER_CD(Tree);
 	M_INCREMENTER_CD(Blos);
+	M_INCREMENTER(Rounds);
 
 	void Statistics::processMComp(unsigned long comp) {
 		if (Statistics::curMComp < comp) {
@@ -213,9 +218,11 @@ namespace maxmatching {
 	M_GETTER(unsigned long, Time);
 	M_GETTER(double, I);
 	M_GETTER(double, RI);
+	M_GETTER(double, Rounds);
 
 	M_SETTER(double, I);
 	M_SETTER(double, RI);
+	M_SETTER(double, Rounds);
 
 	std::string Statistics::createCsvHeader() {
 		std::stringstream ret;
@@ -236,6 +243,7 @@ namespace maxmatching {
 		M_APPEND(Max blossom complexity); ret << ", ";
 		M_APPEND(I); ret << ", ";
 		M_APPEND(RI);
+        ret << ", "; M_APPEND(Rounds);
 #undef M_APPEND_CD
 #undef M_APPEND
 		return ret.str();
@@ -261,6 +269,7 @@ namespace maxmatching {
 		M_APPEND(MComp); ret << ", ";
 		M_APPEND(I); ret << ", ";
 		M_APPEND(RI);
+        ret << ", "; M_APPEND(Rounds);
 #undef M_APPEND_CD
 #undef M_APPEND
 		return ret.str();
