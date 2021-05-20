@@ -292,7 +292,7 @@ namespace norm {
         auto ct4 = maxmatching::currentTimeMillis();
 		isCalculated = true;
 		std::cout << "Exiting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n";
-		std::cout << "Time taken for round: " << n1 - n0 + n4 - n3 << std::endl;
+		std::cout << "Time taken for round: " << ct1 - ct0 + ct4 - ct3 << std::endl;
 		Statistics::setCurrentI(this->getI());
 		Statistics::setCurrentRI(this->getRI());
 	}
