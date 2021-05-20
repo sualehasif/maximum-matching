@@ -299,6 +299,8 @@ namespace norm {
 
         std::chrono::duration<double> elapsed_seconds = ct1 - ct0 + ct4 - ct3;
         std::cout << "Time taken for round: " << elapsed_seconds.count() << std::endl;
+
+        std::flush(std::cout);
 		Statistics::setCurrentI(this->getI());
 		Statistics::setCurrentRI(this->getRI());
 	}
