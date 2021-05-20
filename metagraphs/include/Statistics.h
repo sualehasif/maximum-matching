@@ -56,7 +56,7 @@ namespace maxmatching {
 		M_DECLARE(double, I);
 		M_DECLARE(double, RI);
 
-		M_DECLARE(double, rounds);
+		M_DECLARE(double, Rounds);
 
 		static void processCurrent();
 	public:
@@ -84,13 +84,13 @@ namespace maxmatching {
 		M_DECLARE_GETTER(unsigned long, Time);
 		M_DECLARE_GETTER(double, I);
 		M_DECLARE_GETTER(double, RI);
-        M_DECLARE_GETTER(double, rounds);
+        M_DECLARE_GETTER(double, Rounds);
 
 
 
 		M_DECLARE_SETTER(double, I);
 		M_DECLARE_SETTER(double, RI);
-        M_DECLARE_SETTER(double, rounds);
+        M_DECLARE_SETTER(double, Rounds);
 
 		static void sort();
 		static std::string createCsvHeader();

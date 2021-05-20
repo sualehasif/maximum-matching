@@ -208,6 +208,9 @@ namespace norm {
 
 	template <class Label>
 	void MetaGraphsSolver<Label>::calculateMaxMatching() {
+
+        auto ct0 = maxmatching::currentTimeMillis();
+
 		if (isCalculated) {
 			reset();
 		}
@@ -229,6 +232,7 @@ namespace norm {
 		/* Loop until no progress is made, i.e. no additional matchings are found */
 		bool keepRunning = this->remainingTrees.getSize() > 1;
 		while (keepRunning) {
+            if (this->vertices.size() == 317080) Statistics::setCurrentRounds(Statistics::getCurrentRounds() + 1);
 			unsigned long nRemainingTrees = this->remainingTrees.getSize();
 			this->metaEdgeMatrix.resize(nRemainingTrees * (nRemainingTrees + 1) / 2, false);
 			this->I++;
@@ -253,6 +257,8 @@ namespace norm {
 				}
 #endif
 			}
+
+            auto ct1 = maxmatching::currentTimeMillis();
 			/* Empty meta vertices means no extended matching */
 			if (metaSolver.vertices.size() == 0) {
 				keepRunning = false;
@@ -260,6 +266,8 @@ namespace norm {
 				metaSolver.calculateMaxMatching();
 				this->I += metaSolver.getI() * .5;
 				this->RI += metaSolver.getRI() * metaSolver.getVertices().size() / this->getVertices().size();
+
+                auto ct3 = maxmatching::currentTimeMillis();
 				auto matching = metaSolver.getMatchingRepresentatives();
 				this->applyMetaMatching(matching);
 				delete(matching);
@@ -281,8 +289,10 @@ namespace norm {
 			}
 		}
 		/* Update statistics */
+        auto ct4 = maxmatching::currentTimeMillis();
 		isCalculated = true;
-		DEBUG("Exeting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n");
+		std::cout << "Exiting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n";
+		std::cout << "Time taken for round: " << n1 - n0 + n4 - n3 << std::endl;
 		Statistics::setCurrentI(this->getI());
 		Statistics::setCurrentRI(this->getRI());
 	}
