@@ -100,7 +100,7 @@ namespace maxmatching {
 	};
 
 	void Statistics::incrementRounds() {
-        Rounds = Rounds + 1;
+        this.Rounds = this.Rounds + 1;
 	}
 }
 
