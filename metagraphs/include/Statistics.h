@@ -56,7 +56,7 @@ namespace maxmatching {
 		M_DECLARE(double, I);
 		M_DECLARE(double, RI);
 
-		M_DECLARE(double, Rounds);
+
 
 		static void processCurrent();
 	public:
@@ -68,6 +68,8 @@ namespace maxmatching {
 		static void startTimer();
 		static void pauseTimer();
 		static std::string createReport();
+
+        M_DECLARE(double, Rounds);
 
 		M_DECLARE_INC_CD(Vert);
 		M_DECLARE_INC_CD(Edge);
@@ -96,6 +98,10 @@ namespace maxmatching {
 		static std::string createCsvHeader();
 		static std::string createCsvData();
 	};
+
+	void Statistics::incrementRounds() {
+        Rounds = Rounds + 1;
+	}
 }
 
 #undef M_DECLARE
