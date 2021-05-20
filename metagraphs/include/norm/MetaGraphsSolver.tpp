@@ -236,7 +236,7 @@ namespace norm {
 		/* Loop until no progress is made, i.e. no additional matchings are found */
 		bool keepRunning = this->remainingTrees.getSize() > 1;
 		while (keepRunning) {
-            if (this->vertices.size() == 317080) Statistics::setCurrentRounds(Statistics::getCurrentRounds() + 1);
+            if (this->vertices.size() == 317080) Statistics::incrementRounds();
 			unsigned long nRemainingTrees = this->remainingTrees.getSize();
 			this->metaEdgeMatrix.resize(nRemainingTrees * (nRemainingTrees + 1) / 2, false);
 			this->I++;
