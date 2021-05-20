@@ -264,6 +264,12 @@ namespace qpt {
 
 	template <class Label>
 	void MetaGraphsSolver<Label>::calculateMaxMatching() {
+        auto ct0 = std::chrono::system_clock::now();
+        std::chrono::time_point<std::chrono::system_clock> ct1;
+        std::chrono::time_point<std::chrono::system_clock> ct3;
+        std::chrono::time_point<std::chrono::system_clock> ct4;
+
+
 		if (isCalculated) {
 			reset();
 		}
@@ -289,6 +295,7 @@ namespace qpt {
 		while (this->nUnmatchedNodes > 1 && ((this->growQueueStack[0]->getSize() > 0) || (this->frustratedShrinkableStack[0]->getSize() > 0))) {
 			//int nRemainingTrees = this->remainingTrees.getSize();
 			//this->metaEdgeMatrix.resize(nRemainingTrees * (nRemainingTrees - 1) / 2, false);
+            if (this->vertices.size() == 317080) Statistics::incrementRounds();
 			this->metaEdgeMatrix.resize(this->nUnmatchedNodes * (this->nUnmatchedNodes - 1) / 2, false);
 			this->I++;
 			this->RI++;
@@ -341,6 +348,7 @@ namespace qpt {
 					}
 				}
 			}
+            ct1 = std::chrono::system_clock::now();
 			//std::cout << "Meta solver has " << metaSolver.vertices.size() << " vertices\n";
 			/* Empty meta vertices means no extended matching */
 			if (metaSolver.vertices.size() > 0) {
@@ -348,6 +356,8 @@ namespace qpt {
 				this->I += metaSolver.getI() * .5;
 				this->RI += metaSolver.getRI() * metaSolver.getVertices().size() / this->getVertices().size();
 				std::vector<MVertex<Label>*>* matching = metaSolver.getMatchingRepresentatives();
+                ct3 = std::chrono::system_clock::now();
+
 				this->applyMetaMatching(matching);
 				delete(matching);
 				/* Exit if there are 0 possibly growable trees */
@@ -375,7 +385,15 @@ namespace qpt {
 		}
 		/* Update statistics */
 		isCalculated = true;
+        ct4 = std::chrono::system_clock::now();
 		DEBUG("Exeting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n");
+        if (this->getI() > 10) {
+            std::cout << "Exiting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n";
+            std::chrono::duration<double> elapsed_seconds = ct1 - ct0 + ct4 - ct3;
+            std::cout << "Time taken for round: " << elapsed_seconds.count() << std::endl;
+            std::flush(std::cout);
+        }
+
 		Statistics::setCurrentI(this->getI());
 		Statistics::setCurrentRI(this->getRI());
 	}

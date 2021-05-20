@@ -217,6 +217,12 @@ namespace wr {
 
 	template <class Label>
 	void MetaGraphsSolver<Label>::calculateMaxMatching() {
+
+        auto ct0 = std::chrono::system_clock::now();
+        std::chrono::time_point<std::chrono::system_clock> ct1;
+        std::chrono::time_point<std::chrono::system_clock> ct3;
+        std::chrono::time_point<std::chrono::system_clock> ct4;
+
 		if (isCalculated) {
 			reset();
 		}
@@ -238,6 +244,7 @@ namespace wr {
 		/* Loop until no progress is made, i.e. no additional matchings are found */
 		bool keepRunning = this->remainingTrees.getSize() > 1;
 		while (keepRunning) {
+            if (this->vertices.size() == 317080) Statistics::incrementRounds();
 			unsigned long nRemainingTrees = this->remainingTrees.getSize();
 			this->metaEdgeMatrix.resize(nRemainingTrees * (nRemainingTrees + 1) / 2, false);
 			this->I++;
@@ -262,6 +269,7 @@ namespace wr {
 				}
 #endif
 			}
+            ct1 = std::chrono::system_clock::now();
 			/* Empty meta vertices means no extended matching */
 			if (metaSolver.vertices.size() == 0) {
 				keepRunning = false;
@@ -269,6 +277,8 @@ namespace wr {
 				metaSolver.calculateMaxMatching();
 				this->I += metaSolver.getI() * .5;
 				this->RI += metaSolver.getRI() * metaSolver.getVertices().size() / this->getVertices().size();
+
+                ct3 = std::chrono::system_clock::now();
 				auto matching = metaSolver.getMatchingRepresentatives();
 				this->applyMetaMatching(matching);
 				delete(matching);
@@ -291,8 +301,16 @@ namespace wr {
 			}
 		}
 		/* Update statistics */
-		isCalculated = true;
-		DEBUG("Exeting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n");
+        ct4 = std::chrono::system_clock::now();
+        isCalculated = true;
+        if (this->getI() > 10) {
+            std::cout << "Exiting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n";
+            std::chrono::duration<double> elapsed_seconds = ct1 - ct0 + ct4 - ct3;
+            std::cout << "Time taken for round: " << elapsed_seconds.count() << std::endl;
+            std::flush(std::cout);
+        }
+
+        DEBUG("Exeting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n");
 		Statistics::setCurrentI(this->getI());
 		Statistics::setCurrentRI(this->getRI());
 	}
