@@ -211,9 +211,9 @@ namespace norm {
 	void MetaGraphsSolver<Label>::calculateMaxMatching() {
 
         auto ct0 = std::chrono::system_clock::now();
-        unsigned long ct1;
-        unsigned long ct3;
-        unsigned long ct4;
+        std::chrono::time_point<std::chrono::system_clock> ct1;
+        std::chrono::time_point<std::chrono::system_clock> ct3;
+        std::chrono::time_point<std::chrono::system_clock> ct4;
 
 		if (isCalculated) {
 			reset();
