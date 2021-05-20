@@ -210,6 +210,9 @@ namespace norm {
 	void MetaGraphsSolver<Label>::calculateMaxMatching() {
 
         auto ct0 = maxmatching::currentTimeMillis();
+        unsigned long ct1;
+        unsigned long ct3;
+        unsigned long ct4;
 
 		if (isCalculated) {
 			reset();
@@ -258,7 +261,7 @@ namespace norm {
 #endif
 			}
 
-            auto ct1 = maxmatching::currentTimeMillis();
+            ct1 = maxmatching::currentTimeMillis();
 			/* Empty meta vertices means no extended matching */
 			if (metaSolver.vertices.size() == 0) {
 				keepRunning = false;
@@ -267,7 +270,7 @@ namespace norm {
 				this->I += metaSolver.getI() * .5;
 				this->RI += metaSolver.getRI() * metaSolver.getVertices().size() / this->getVertices().size();
 
-                auto ct3 = maxmatching::currentTimeMillis();
+                ct3 = maxmatching::currentTimeMillis();
 				auto matching = metaSolver.getMatchingRepresentatives();
 				this->applyMetaMatching(matching);
 				delete(matching);
@@ -289,7 +292,7 @@ namespace norm {
 			}
 		}
 		/* Update statistics */
-        auto ct4 = maxmatching::currentTimeMillis();
+        ct4 = maxmatching::currentTimeMillis();
 		isCalculated = true;
 		std::cout << "Exiting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n";
 		std::cout << "Time taken for round: " << ct1 - ct0 + ct4 - ct3 << std::endl;
