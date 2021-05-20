@@ -295,12 +295,16 @@ namespace norm {
 		/* Update statistics */
         ct4 = std::chrono::system_clock::now();
 		isCalculated = true;
-		std::cout << "Exiting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n";
+		if (this->getI() > 10) {
+		    std::cout << "Exiting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n";
+            std::chrono::duration<double> elapsed_seconds = ct1 - ct0 + ct4 - ct3;
+            std::cout << "Time taken for round: " << elapsed_seconds.count() << std::endl;
+            std::flush(std::cout);
+		}
 
-        std::chrono::duration<double> elapsed_seconds = ct1 - ct0 + ct4 - ct3;
-        std::cout << "Time taken for round: " << elapsed_seconds.count() << std::endl;
 
-        std::flush(std::cout);
+
+
 		Statistics::setCurrentI(this->getI());
 		Statistics::setCurrentRI(this->getRI());
 	}
