@@ -267,6 +267,7 @@ namespace norm {
 			if (metaSolver.vertices.size() == 0) {
 				keepRunning = false;
 			} else {
+			    if (metaSolver.vertices.size() > 100) std::cout << "operating on metagraph of size " << metaSolver.vertices.size() << std::endl;
 				metaSolver.calculateMaxMatching();
 				this->I += metaSolver.getI() * .5;
 				this->RI += metaSolver.getRI() * metaSolver.getVertices().size() / this->getVertices().size();

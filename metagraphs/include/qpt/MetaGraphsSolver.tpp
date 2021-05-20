@@ -352,6 +352,7 @@ namespace qpt {
 			//std::cout << "Meta solver has " << metaSolver.vertices.size() << " vertices\n";
 			/* Empty meta vertices means no extended matching */
 			if (metaSolver.vertices.size() > 0) {
+                if (metaSolver.vertices.size() > 100) std::cout << "operating on metagraph of size " << metaSolver.vertices.size() << std::endl;
 				metaSolver.calculateMaxMatching();
 				this->I += metaSolver.getI() * .5;
 				this->RI += metaSolver.getRI() * metaSolver.getVertices().size() / this->getVertices().size();
