@@ -1,5 +1,6 @@
 #include "norm/MetaGraphsSolver.h"
 
+
 /* Macros to help with adressing an upper triangular matrix */
 #define MEDGE_MAT_ID_H(ID1, ID2)\
 /**/ID1*this->remainingTrees.getSize()+ID2-(ID1+1)*(ID1+2)/2
@@ -209,7 +210,7 @@ namespace norm {
 	template <class Label>
 	void MetaGraphsSolver<Label>::calculateMaxMatching() {
 
-        auto ct0 = maxmatching::currentTimeMillis();
+        auto ct0 = std::chrono::system_clock::now();
         unsigned long ct1;
         unsigned long ct3;
         unsigned long ct4;
@@ -261,7 +262,7 @@ namespace norm {
 #endif
 			}
 
-            ct1 = maxmatching::currentTimeMillis();
+            ct1 = std::chrono::system_clock::now();
 			/* Empty meta vertices means no extended matching */
 			if (metaSolver.vertices.size() == 0) {
 				keepRunning = false;
@@ -270,7 +271,7 @@ namespace norm {
 				this->I += metaSolver.getI() * .5;
 				this->RI += metaSolver.getRI() * metaSolver.getVertices().size() / this->getVertices().size();
 
-                ct3 = maxmatching::currentTimeMillis();
+                ct3 = std::chrono::system_clock::now();
 				auto matching = metaSolver.getMatchingRepresentatives();
 				this->applyMetaMatching(matching);
 				delete(matching);
@@ -292,10 +293,12 @@ namespace norm {
 			}
 		}
 		/* Update statistics */
-        ct4 = maxmatching::currentTimeMillis();
+        ct4 = std::chrono::system_clock::now();
 		isCalculated = true;
 		std::cout << "Exiting meta graph calculation (I=" << this->getI() << ", RI=" << this->getRI() << ")\n\n";
-		std::cout << "Time taken for round: " << ct1 - ct0 + ct4 - ct3 << std::endl;
+
+        std::chrono::duration<double> elapsed_seconds = ct1 - ct0 + ct4 - ct3;
+        std::cout << "Time taken for round: " << elapsed_seconds.count() << std::endl;
 		Statistics::setCurrentI(this->getI());
 		Statistics::setCurrentRI(this->getRI());
 	}

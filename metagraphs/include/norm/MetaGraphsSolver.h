@@ -11,6 +11,8 @@
 #include "norm/MCherryTree.h"
 #include "norm/MVertex.h"
 #include "SolverEnums.h"
+#include <chrono>
+#include <ctime>
 
 namespace maxmatching {
 namespace norm {
