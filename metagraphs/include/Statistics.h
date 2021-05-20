@@ -86,7 +86,7 @@ namespace maxmatching {
 		M_DECLARE_GETTER(double, RI);
         M_DECLARE_GETTER(double, Rounds);
 
-        M_DECLARE_INC(Rounds)
+        M_DECLARE_INC(Rounds);
 
 		M_DECLARE_SETTER(double, I);
 		M_DECLARE_SETTER(double, RI);
