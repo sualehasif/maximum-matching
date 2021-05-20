@@ -24,6 +24,7 @@ namespace maxmatching::norm {
     private:
         /* Counter to enumerate debug prints */
         static unsigned int printCtr;
+        static unsigned int id;
 
         /* Internal debug method */
         void recursivePrintNode(MVertex<Label> *v, const std::string &prefix, std::stringstream &stream);
@@ -35,6 +36,7 @@ namespace maxmatching::norm {
          * Printing a tree, while the structure is being reformed is unsafe. */
         bool consistent;
     public:
+        unsigned int getId() const;
         /* Root of the tree */
         MVertex<Label> *root;
         /* Number of vertices in the tree */
@@ -44,6 +46,9 @@ namespace maxmatching::norm {
         /* ListElement for the remainingTrees list in the MetaGraphsSolver class
         * Necessary for O(1) deletion */
         ListElement<MCherryTree<Label>> listElem;
+
+        std::vector<unsigned int> growable;
+        std::vector<unsigned int> willGrow;
 
         explicit MCherryTree(MVertex<Label> *root);
 
@@ -75,8 +80,10 @@ namespace maxmatching::norm {
             , root(root)
             , size(0)
             , metaVertex(new MVertex<Label>(this))
-            , listElem(this) {
+            , listElem(this)
+            , id(root.getLabel()){
         root->setContainingTree(this);
+        growable.push_back(root->getLabel());
         Statistics::incrementTreeCreated();
     }
 
@@ -102,11 +109,17 @@ namespace maxmatching::norm {
         Statistics::incrementTreeDeleted();
     }
 
+    template <class Label>
+    unsigned int MCherryTree<Label>::getId() const {
+        return this->id;
+    }
+
     /* Rotates the tree according to the pseudocode, except we're
      * using HalfEdges instead of vertices in the lists here.
      * The adaptation is mostly trivial though. */
     template <class Label>
     void MCherryTree<Label>::rotate(MVertex<Label>* newRoot) {
+        // todo: consider updating the id of the cherry tree based on the rotation. Shouldnt cause any bugs.
         DEBUG("Rotating tree " << this->root->id << " to " << newRoot->id << "\n");
         if (this->root == newRoot) {
             return;

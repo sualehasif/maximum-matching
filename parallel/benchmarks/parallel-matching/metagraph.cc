@@ -3,7 +3,7 @@
 namespace gbbs {
 
 template <class Graph>
-double MetaGraph_runner(Graph& G, commandLine P){
+double MetaGraph_runner(Graph& G, const commandLine& P){
   std::cout << "### Application: MetaGraphs" << std::endl;
   std::cout << "### Graph: " << P.getArgument(0) << std::endl;
   std::cout << "### Threads: " << num_workers() << std::endl;
@@ -14,7 +14,7 @@ double MetaGraph_runner(Graph& G, commandLine P){
 
   timer t; t.start();
   auto matching = MetaGraphMatching(G);
-  std::cout << matching << std::endl;
+  std::cout << "### Found a matching of size: " << matching.size() << std::endl;
   double tt = t.stop();
 
   std::cout << "### Running Time: " << tt << std::endl;
